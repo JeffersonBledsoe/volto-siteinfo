@@ -7,24 +7,21 @@ const applyConfig = (config) => {
   config.addonReducers = { siteInfo, ...config.addonReducers };
 
   config.settings.asyncPropsExtenders = [
-    ...(config.settings.asyncPropsExtenders ?? []),
+    ...(config.settings.asyncPropsExtenders || []),
     {
       path: '/',
       extend: (dispatchActions) => {
-        if (
-          dispatchActions.filter(
-            (asyncAction) => asyncAction.key === 'siteInfo',
-          ).length === 0
-        ) {
-          dispatchActions.push({
-            key: 'siteInfo',
-            promise: ({ location, store: { dispatch } }) => {
-              __SERVER__ &&
-                dispatch(getSiteInfo(getBaseUrl(location.pathname)));
-            },
-          });
-        }
-        return dispatchActions;
+        const siteInfo = {
+          key: 'siteInfo',
+          promise: ({ location, store: { dispatch } }) => {
+            const action = getSiteInfo(getBaseUrl(location.pathname));
+            return dispatch(action).catch((e) => {
+              // eslint-disable-next-line
+              console.log('Error getting siteinfo');
+            });
+          },
+        };
+        return [...dispatchActions, siteInfo];
       },
     },
   ];
