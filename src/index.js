@@ -14,6 +14,9 @@ const applyConfig = (config) => {
         const siteInfo = {
           key: 'siteInfo',
           promise: ({ location, store: { dispatch } }) => {
+            if (!__SERVER__) {
+              return;
+            }
             const action = getSiteInfo(getBaseUrl(location.pathname));
             return dispatch(action).catch((e) => {
               // eslint-disable-next-line
