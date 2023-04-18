@@ -1,6 +1,6 @@
 {
   "name": "volto-siteinfo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "volto-siteinfo: Volto add-on",
   "main": "src/index.js",
   "license": "MIT",
