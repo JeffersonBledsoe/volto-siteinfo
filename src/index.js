@@ -1,5 +1,3 @@
-import { getBaseUrl } from '@plone/volto/helpers';
-
 import { getSiteInfo } from './actions';
 import { siteInfo } from './reducers';
 
@@ -13,11 +11,11 @@ const applyConfig = (config) => {
       extend: (dispatchActions) => {
         const siteInfo = {
           key: 'siteInfo',
-          promise: ({ location, store: { dispatch } }) => {
+          promise: ({ store: { dispatch } }) => {
             if (!__SERVER__) {
               return;
             }
-            const action = getSiteInfo(getBaseUrl(location.pathname));
+            const action = getSiteInfo();
             return dispatch(action).catch((e) => {
               // eslint-disable-next-line
               console.log('Error getting siteinfo');
